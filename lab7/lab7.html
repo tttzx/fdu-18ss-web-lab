@@ -1,8 +1,77 @@
 <html>
 <head>
 <title>Chapter 10</title>
+    <script src="https://cdn.staticfile.org/jquery/2.0.0/jquery.min.js">
+    </script>
 <link rel="stylesheet" href="lab7.css">
 <script>
+    $(function() {
+        $("#thumbBox img").each(function () {
+            var a = $(this);
+            a.click(function () {
+                $("#imgManipulated img").attr("src",a.attr("src").replace("small","medium"));
+                $("#imgManipulated figcaption").html("<em>"+a.attr("alt")+"</em><br>"+a.attr("title"));
+            })
+        });
+
+        function change(){
+            $("#imgManipulated img").css("filter",
+                "opacity("+$("#sliderOpacity").val()+"%)"+
+                " saturate("+$("#sliderSaturation").val()+"%)"+
+                " brightness("+$("#sliderBrightness").val()+"%)" +
+                " hue-rotate(" +$("#sliderHue").val()+"deg)"+
+                " grayscale("+$("#sliderGray").val()+"%)" +
+                " blur("+$("#sliderBlur").val()+"px)");
+            $("#imgManipulated img").css("-webkit-filter",
+                "opacity("+$("#sliderOpacity").val()+"%)"+
+                " saturate("+$("#sliderSaturation").val()+"%)"+
+                " brightness("+$("#sliderBrightness").val()+"%)" +
+                " hue-rotate(" +$("#sliderHue").val()+"deg)"+
+                " grayscale("+$("#sliderGray").val()+"%)" +
+                " blur("+$("#sliderBlur").val()+"px)");
+        }
+
+        $("#sliderOpacity").mousemove(function () {
+            $("#numOpacity").text($("#sliderOpacity").val());
+            change();
+        });
+
+        $("#sliderSaturation").mousemove(function () {
+            $("#numSaturation").text($("#sliderSaturation").val());
+            change();
+        });
+
+        $("#sliderBrightness").mousemove(function () {
+            $("#numBrightness").text($("#sliderBrightness").val());
+            change();
+        });
+
+        $("#sliderHue").mousemove(function () {
+            $("#numHue").text($("#sliderHue").val());
+            change();
+        });
+
+        $("#sliderGray").mousemove(function () {
+            $("#numGray").text($("#sliderGray").val());
+            change();
+        });
+
+        $("#sliderBlur").mousemove(function () {
+            $("#numBlur").text($("#sliderBlur").val());
+            change();
+        });
+        
+        $("#resetFilters").click(function () {
+            $("#sliderOpacity").val(100);
+            $("#sliderSaturation").val(100);
+            $("#sliderBrightness").val(100);
+            $("#sliderHue").val(0);
+            $("#sliderGray").val(0);
+            $("#sliderBlur").val(0);
+            change();
+        })
+
+    });
 </script>      
 </head>    
 <body class="tiled">
@@ -12,7 +81,7 @@
 <main>
     <div id="sliderBox">
         <form>
-           <label>Opacity: </label><p><input type="range" id="sliderOpacity" min="0" max="100" value="100" class="sliders" /> <span id="numOpacity">100</span>%</p>
+            <p><label>Opacity: </label><input type="range" id="sliderOpacity" min="0" max="100" value="100" class="sliders" /> <span id="numOpacity">100</span>%</p>
            <p><label>Saturation: </label><input type="range" id="sliderSaturation" min="1" max="300" value="100" class="sliders"/> <span id="numSaturation">100</span>%</p>
            <p><label>Brightness: </label><input type="range" id="sliderBrightness" min="0" max="300" value="100" class="sliders" /> <span id="numBrightness">100</span>%</p>
            <p><label>Hue Rotate: </label><input type="range" id="sliderHue" min="0" max="360" value="0" class="sliders" /> <span id="numHue">0</span>deg</p>
