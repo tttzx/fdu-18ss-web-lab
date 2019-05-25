@@ -1,9 +1,6 @@
 <?php
 include 'travel-data.inc.php';
 
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -41,8 +38,14 @@ include 'travel-data.inc.php';
               /* you will need to fill this place with appropriate PHP */
               /* hint: use array and loop */
               //the next line is an example
-              //<a href="list.php?country=Canada" role="button" class="btn btn-default"> Canada</a> 
+              //<a href="list.php?country=Canada" role="button" class="btn btn-default"> Canada</a>
 
+              function output1($a){
+                  foreach($a as $abbrName=>$name){
+                      echo "<a href=\"list.php?country=".$name."\" role=\"button\" class=\"btn btn-default\"> ".$name."</a>";
+                  }
+              }
+              output1($countries);
 
               ?>
                      
@@ -59,18 +62,37 @@ include 'travel-data.inc.php';
           //you need to fill the elements with data provided
 
 
-   //        <li>
-   //              <a href="detail.php?id=22" class="img-responsive">
-   //              	<img src="images/square/6114850721.jpg" alt="View of Cologne">
-   //              	<div class="caption">
-   //              		<div class="blur">
-   //              		</div>
-   //              		<div class="caption-text">
-   //              			<h1>View of Cologne</h1>
-   //              		</div>
-   //              	</div>
-   //              </a>
-			// </li>
+//           <li>
+//                 <a href="detail.php?id=22" class="img-responsive">
+//                 	<img src="images/square/6114850721.jpg" alt="View of Cologne">
+//                 	<div class="caption">
+//                 		<div class="blur">
+//                 		</div>
+//                 		<div class="caption-text">
+//                 			<h1>View of Cologne</h1>
+//                 		</div>
+//                 	</div>
+//                 </a>
+//			 </li>
+          function output2($a){
+
+              foreach ($a as $num=>$info){
+                  echo "<li>";
+                  echo "<a href=\"detail.php?id=".$info['id']."\" class=\"img-responsive\">";
+                  echo "<img src=\"images/square/".$info['path']."\" alt=\"".$info['title']."\">";
+                  echo "<div class=\"caption\">";
+                  echo "<div class=\"blur\">";
+                  echo "</div>";
+                  echo "<div class=\"caption-text\">";
+                  echo "<h1>".$info['title']."</h1>";
+                  echo "</div>";
+                  echo "</div>";
+                  echo "</a>";
+			      echo "</li>";
+              }
+          }
+          output2($images);
+
           ?>
 
        </ul>       
