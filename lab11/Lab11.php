@@ -1,9 +1,12 @@
 <?php
 //Fill this place
-
 //****** Hint ******
 //connect database and fetch data here
-
+$conn = mysqli_connect('localhost','root','50777443tzx');
+if(! $conn )
+{
+    die('连接失败: ' . mysqli_error($conn));
+};
 
 ?>
 
@@ -47,6 +50,14 @@
                 //****** Hint ******
                 //display the list of continents
 
+                $sql='SELECT * FROM continents';
+                mysqli_select_db( $conn, 'travel' );
+                $result = mysqli_query( $conn, $sql );
+                if(! $result )
+                {
+                    die('无法读取数据: ' . mysqli_error($conn));
+                }
+
                 while($row = $result->fetch_assoc()) {
                   echo '<option value=' . $row['ContinentCode'] . '>' . $row['ContinentName'] . '</option>';
                 }
@@ -60,7 +71,18 @@
                 //Fill this place
 
                 //****** Hint ******
-                /* display list of countries */ 
+                /* display list of countries */
+                $sql='SELECT * FROM countries';
+                mysqli_select_db( $conn, 'travel' );
+                $result = mysqli_query( $conn, $sql );
+                if(! $result )
+                {
+                    die('无法读取数据: ' . mysqli_error($conn));
+                }
+
+                while($row = $result->fetch_assoc()) {
+                    echo '<option value=' . $row['ISO'] . '>' . $row['CountryName'] . '</option>';
+                }
                 ?>
               </select>    
               <input type="text"  placeholder="Search title" class="form-control" name=title>
@@ -89,7 +111,54 @@
                 </div>
               </a>
             </li>        
-            */ 
+            */
+
+            if(isset($_GET['country'])){
+                $country = $_GET['country'];
+            }else{
+                $country =0;
+            }
+
+            if(isset($_GET['continent'])){
+                $continent = $_GET['continent'];
+            }else{
+                $continent = 0;
+            }
+
+
+            if($country && $continent){
+                $sql="SELECT * FROM imageDetails WHERE CountryCodeISO='$country' and ContinentCode= '$continent' ";
+            }else if($country){
+                $sql="SELECT * FROM imageDetails WHERE CountryCodeISO='$country'";
+            }else if($continent){
+                $sql="SELECT * FROM imageDetails WHERE ContinentCode= '$continent'";
+            }else{
+                $sql="SELECT * FROM imageDetails";
+            }
+            mysqli_select_db( $conn, 'travel' );
+            $result = mysqli_query( $conn, $sql );
+            printSql($result);
+
+
+            function printSql($result){
+                while($row = $result->fetch_assoc()) {
+                ?>
+            <li>
+               <a href="detail.php?id=<?php echo $row['ImageID'];?>" class="img-responsive">
+                <img src="images/square-medium/<?php echo $row['Path'];?>" alt="<?php echo $row['Title'];?>" style="height:225px;width:225px">
+                <div class="caption">
+                    <div class="blur"></div>
+                    <div class="caption-text">
+                        <p><?php echo $row['Title'];?></p>
+                    </div>
+                </div>
+                </a>
+            </li>
+                <?php
+                }
+            }
+            $result->close();
+            $conn->close();
             ?>
        </ul>       
 
